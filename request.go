@@ -3,6 +3,7 @@ package cmds
 import (
 	"context"
 	"fmt"
+	"net/http"
 	"reflect"
 
 	files "github.com/ipfs/go-ipfs-files"
@@ -20,6 +21,7 @@ type Request struct {
 	Files files.Directory
 
 	bodyArgs *arguments
+	Header http.Header
 }
 
 // NewRequest returns a request initialized with given arguments

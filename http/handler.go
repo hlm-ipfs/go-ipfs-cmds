@@ -122,13 +122,13 @@ func (h *handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		log.Warnf("The IPFS API does not support %s requests.", r.Method)
 		return
 	}
-
+/*
 	if !allowOrigin(r, h.cfg) || !allowReferer(r, h.cfg) || !allowUserAgent(r, h.cfg) {
 		http.Error(w, "403 - Forbidden", http.StatusForbidden)
 		log.Warnf("API blocked request to %s. (possible CSRF)", r.URL)
 		return
 	}
-
+*/
 	// If we have a request body, make sure the preamble
 	// knows that it should close the body if it wants to
 	// write before completing reading.

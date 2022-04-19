@@ -177,6 +177,7 @@ func parseRequest(r *http.Request, root *cmds.Command) (*cmds.Request, error) {
 	}
 
 	err = req.FillDefaults()
+	req.Header = r.Header
 	return req, err
 }
 
