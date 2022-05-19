@@ -198,4 +198,18 @@ func setAllowHeader(w http.ResponseWriter, allowGet bool) {
 		allowedMethods = append(allowedMethods, http.MethodHead, http.MethodGet)
 	}
 	w.Header().Set("Allow", strings.Join(allowedMethods, ", "))
+	SetHeaders(w)
+}
+
+func SetHeaders(w http.ResponseWriter) {
+	set := func(w http.ResponseWriter, k, v string) {
+		if v := w.Header().Get(k); len(v) > 0 {
+			return
+		}
+		w.Header().Set(k, v)
+	}
+	set(w, "Access-Control-Allow-Origin", "*")
+	set(w, "Access-Control-Allow-Credentials", "true")
+	set(w, "Access-Control-Allow-Methods", "*")
+	set(w, "Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, AccessKey, Signature, TimeStamp")
 }
