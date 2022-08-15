@@ -2,6 +2,7 @@ package http
 
 import (
 	"context"
+	"crypto/tls"
 	"fmt"
 	"io"
 	"net"
@@ -21,6 +22,8 @@ const (
 var OptionSkipMap = map[string]bool{
 	"api": true,
 }
+
+var TLSConfig *tls.Config
 
 type client struct {
 	serverAddress string
@@ -80,10 +83,18 @@ func NewClient(address string, opts ...ClientOpt) cmds.Executor {
 	if !strings.HasPrefix(address, "http://") {
 		address = "http://" + address
 	}
-
+	httpClient := http.DefaultClient
+	if TLSConfig != nil {
+		httpClient = &http.Client{
+			Transport: &http.Transport{
+				TLSClientConfig: TLSConfig,
+			},
+		}
+		address = strings.Replace(address,"http://","https://",1)
+	}
 	c := &client{
 		serverAddress: address,
-		httpClient:    http.DefaultClient,
+		httpClient:    httpClient,
 		ua:            "go-ipfs-cmds/http",
 	}
 
